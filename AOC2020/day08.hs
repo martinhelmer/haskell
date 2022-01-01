@@ -31,9 +31,9 @@ variations program pos l
           where 
              (command,arg) = getCmdArg $ program !! pos
 
-flipNopJmp :: String -> String -> String
-flipNopJmp "nop" arg = concat ["jmp ",arg]
-flipNopJmp "jmp" arg = concat ["nop ",arg]
+             flipNopJmp :: String -> String -> String
+             flipNopJmp "nop" arg = concat ["jmp ",arg]
+             flipNopJmp "jmp" arg = concat ["nop ",arg]
 
 
 replaceNth :: Int -> a -> [a] -> [a]
