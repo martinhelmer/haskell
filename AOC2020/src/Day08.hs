@@ -1,9 +1,15 @@
+module Day08
+    ( runner
+    , myRead
+    ) where
+      
 import qualified Data.Set as S
-import Data.List
+import Data.List ()
 import qualified Data.Map as Map
-import Data.Maybe
+import Data.Maybe ()
 
 myRead :: String -> Int
+myRead [] = 0
 myRead (x:xs) = if x == '+' then read xs else read (x:xs)
 
 getCmdArg :: String -> (String, String)
@@ -17,6 +23,7 @@ accUntilRepeated program position acc visited
            | command == "nop" = accUntilRepeated program (position + 1) acc updatedSet 
            | command == "acc" = accUntilRepeated program (position + 1) (acc + myRead arg) updatedSet 
            | command == "jmp" = accUntilRepeated program (position + myRead arg) acc updatedSet 
+           | otherwise        = error "Unexpected condition in accUntilRepeated"
            where
                (command,arg) = getCmdArg $ program !! position
                updatedSet = S.insert position visited
@@ -26,14 +33,15 @@ accUntilRepeated program position acc visited
 variations :: [String] -> Int -> [[String]] -> [[String]]
 variations program pos l 
           | pos >= length program = l
-          | command `elem` ["nop","jmp"] = variations program (pos+1) $ (replaceNth pos (flipNopJmp command arg) program):l
+          | command `elem` ["nop","jmp"] = variations program (pos+1) $ replaceNth pos (flipNopJmp command arg) program:l
           | otherwise  = variations program (pos+1) l
           where 
              (command,arg) = getCmdArg $ program !! pos
 
              flipNopJmp :: String -> String -> String
-             flipNopJmp "nop" arg = concat ["jmp ",arg]
-             flipNopJmp "jmp" arg = concat ["nop ",arg]
+             flipNopJmp "nop" arg = "jmp " ++ arg
+             flipNopJmp "jmp" arg = "nop " ++ arg
+             flipNopJmp _ _ = error "Unexpected condition"
 
 
 replaceNth :: Int -> a -> [a] -> [a]
@@ -42,7 +50,9 @@ replaceNth n newVal (x:xs)
   | n == 0 = newVal:xs
   | otherwise = x:replaceNth (n-1) newVal xs
 
-main = do
+
+runner :: IO ()
+runner = do
        l <- getContents
        print ( accUntilRepeated (lines l) 0 0 S.empty )   -- part 1
-       print ( head $ filter (>0) $ map (\l -> accUntilRepeated (l) 0 0 S.empty ) (variations (lines l) 0 []) )
+       print ( head $ filter (>0) $ map (\l -> accUntilRepeated l 0 0 S.empty ) (variations (lines l) 0 []) )
