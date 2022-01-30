@@ -29,6 +29,22 @@ fun2' = sum . filter even . takeWhile (/=1) . iterate (\n -> if even n then n `d
 
 -- exercise 2
 
+exercise2 = do
+      print $ foldTree "ABCDEFGHIJ"
+      print $  foldTree "ABCDEFGHIJ" == 
+                   Node 3 
+                        (Node 2 
+                              (Node 0 Leaf 'H' Leaf)
+                              'C' 
+                              (Node 1 Leaf 'E' (Node 0 Leaf 'I' Leaf))) 
+                        'A' 
+                        (Node 2 
+                                (Node 1 
+                                    Leaf 'F' (Node 0 Leaf 'J' Leaf)) 
+                                'B' 
+                                (Node 1 
+                                    Leaf 'D' (Node 0 Leaf 'G' Leaf)))
+
 data Tree a = Leaf | Node Integer (Tree a) a (Tree a)
       deriving (Show, Eq)
 
@@ -46,7 +62,19 @@ insert (Node d lTree v rTree) a | getDepth lTree < getDepth rTree = Node d (inse
 
 
 foldTree :: [a] -> Tree a
-foldTree = foldl insert Leaf
+foldTree = foldl insert Leaf 
+
+-- exercise 3
+exercise3 = do 
+      print $ Main.xor [False, True, False] == True
+      print $ Main.xor [False, True, False, False, True] == False
+
+xor :: [Bool] -> Bool
+xor = foldr (\x y -> if x then not y else y) False 
+
+map' :: (a -> b) -> [a] -> [b]
+map' f = foldr (\x y -> f x : y) []
+
 
 
 
@@ -54,3 +82,6 @@ foldTree = foldl insert Leaf
 
 main = do
     exercise1
+    exercise2
+    exercise3
+
