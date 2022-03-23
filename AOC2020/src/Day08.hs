@@ -1,8 +1,7 @@
-module Day08
-    ( runner
-    , myRead
-    ) where
-      
+
+module Day08 where
+
+
 import qualified Data.Set as S
 import Data.List ()
 import qualified Data.Map as Map
@@ -51,8 +50,8 @@ replaceNth n newVal (x:xs)
   | otherwise = x:replaceNth (n-1) newVal xs
 
 
-runner :: IO ()
-runner = do
+main :: IO ()
+main = do
        l <- getContents
        print ( accUntilRepeated (lines l) 0 0 S.empty )   -- part 1
        print ( head $ filter (>0) $ map (\l -> accUntilRepeated l 0 0 S.empty ) (variations (lines l) 0 []) )
