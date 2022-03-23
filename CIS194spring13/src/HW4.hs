@@ -1,5 +1,8 @@
 import Data.STRef (newSTRef)
 import Data.Bits (Bits(xor))
+import qualified Data.Set as Set
+import Data.List
+
 -- exercise 1
 
 exercise1 = do
@@ -54,20 +57,21 @@ getDepth Leaf = -1
 getDepth (Node d _ _ _) = d
 
 
-insert :: Tree a -> a -> Tree a
-insert Leaf a = Node 0 Leaf a Leaf
-insert (Node d lTree v rTree) a | getDepth lTree < getDepth rTree = Node d (insert lTree a) v rTree
-                                | otherwise = Node (1 + getDepth newR) lTree v newR 
-                                      where newR = insert rTree a
+insertL :: Tree a -> a -> Tree a
+insertL Leaf a = Node 0 Leaf a Leaf
+insertL (Node d lTree v rTree) a | getDepth lTree < getDepth rTree = Node d (insertL lTree a) v rTree
+                                 | otherwise = Node (1 + getDepth newR) lTree v newR 
+                                      where newR = insertL rTree a
 
 
 foldTree :: [a] -> Tree a
-foldTree = foldl insert Leaf 
+foldTree = foldl insertL Leaf 
 
 -- exercise 3
 exercise3 = do 
       print $ Main.xor [False, True, False] == True
       print $ Main.xor [False, True, False, False, True] == False
+      print $ foldl (-) 10 [1,2,3] == myFoldl (-) 10 [1,2,3]
 
 xor :: [Bool] -> Bool
 xor = foldr (\x y -> if x then not y else y) False 
@@ -76,12 +80,39 @@ map' :: (a -> b) -> [a] -> [b]
 map' f = foldr (\x y -> f x : y) []
 
 
-
 myFoldl :: (a -> b -> a) -> a -> [b]  -> a 
-myFoldl f base xs = foldr (flip f) base (reverse xs)
+myFoldl f base xs= foldr (flip f) base (reverse xs)
+
+
+-- exercise 4
+-- https://searchcode.com/codesearch/view/79836348/
+exercise4 = do
+      print $ sieveSundaram 100 == [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 
+                                    43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 
+                                    97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 
+                                    149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199]
+
+
+sieveSundaram :: Integer -> [Integer]
+sieveSundaram n = map ((+1) . (*2)) $ Set.toList . sieve1 1 $ Set.fromList [1..n]
+      where 
+            sieve1 :: Integer -> Set.Set Integer  -> Set.Set Integer 
+            sieve1 i s | ff i i > Set.findMax s = s
+                       | otherwise = sieve1 (i+1) $ sieve2 i i s
+
+            sieve2 :: Integer -> Integer -> Set.Set Integer -> Set.Set Integer 
+            sieve2 i j s | ff i j > Set.findMax s = s
+                         | otherwise = sieve2 i (j+1) $ Set.delete (ff i j) s
+ 
+            ff i j = i + j + 2 * i * j
 
 main = do
     exercise1
     exercise2
     exercise3
+    exercise4
+
+
+       
+
 
