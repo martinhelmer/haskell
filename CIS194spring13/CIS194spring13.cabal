@@ -25,12 +25,32 @@ source-repository head
 
 library
   exposed-modules:
+      AParser
+      AParser2
+      Buffer
+      Editor
+      Employee
+      ExprT
+      Gabs
       Golf
       Hanoi
+      HW11
       HW4
+      HW5
+      HW6
+      JoinList
+      JoinListEditor
       Lecture02
       Log
       LogAnalysis
+      Parser
+      Party
+      Scrabble
+      SExpr
+      Sized
+      StackVM
+      StringBufEditor
+      StringBuffer
   other-modules:
       Paths_CIS194spring13
   hs-source-dirs:
