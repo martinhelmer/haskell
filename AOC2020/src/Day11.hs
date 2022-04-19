@@ -1,6 +1,8 @@
+module Day11 where 
+
 import Data.Array
-import Distribution.Simple.Utils (xargs)
-import Distribution.Compat.Graph (neighbors)
+-- import Distribution.Simple.Utils (xargs)
+-- import Distribution.Compat.Graph (neighbors)
 
 data Seat = Empty | Occupied | Floor  deriving (Eq, Show)
 

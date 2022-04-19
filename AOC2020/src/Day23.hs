@@ -1,9 +1,11 @@
+module Day23 where 
+       
 import System.TimeIt
 import qualified Data.Vector as V
 import Data.Int 
 
 startState = parseInp 389125467
-startState2 = parseInp 389125467 ++ [10..10000]
+startState2 = parseInp 389125467 ++ [10..1000]
 
 parseInp :: Show a => a -> [Int]
 parseInp i = read ("[" ++ go (show i) ++ "]")
@@ -101,6 +103,6 @@ main :: IO ()
 main = do
 --     timeIt $ print $ take 5 $ (doNtimes (nextState) 100 startState)   -- naive 
 --     timeIt $ print $ take 5 $ (doNtimes (nextState) 1000 startState2) -- naive 
---     timeIt $ print $ take 5 $ (doNtimes (nextState2 10000) 1000 startState2)   -- naive 
-    timeIt $ print $ take 5 $ fromCicrular $ (doNtimes (nextState3) 1000 (getStartVector 389125467 1000000))   -- naive 
+    timeIt $ print $ take 5 $ (doNtimes (nextState2 1000) 1000 startState2)   -- naive 
+    timeIt $ print $ take 5 $ fromCicrular $ (doNtimes (nextState3) 1000 (getStartVector 389125467 1000))   -- naive 
     

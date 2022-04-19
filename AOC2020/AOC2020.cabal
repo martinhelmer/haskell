@@ -42,14 +42,24 @@ library
       Day21
       Day22
       Day23
+      Day23b
+      Day23c
+      Day24
+      Day25
       Helpers
+      T
   other-modules:
       Paths_AOC2020
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      array
+    , base >=4.7 && <5
     , containers
+    , parsec
+    , primitive
+    , timeit
+    , vector
   default-language: Haskell2010
 
 executable day08
@@ -59,8 +69,45 @@ executable day08
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       AOC2020
+    , array
     , base >=4.7 && <5
     , containers
+    , parsec
+    , primitive
+    , timeit
+    , vector
+  default-language: Haskell2010
+
+executable day13
+  main-is: day13App.hs
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      AOC2020
+    , array
+    , base >=4.7 && <5
+    , containers
+    , parsec
+    , primitive
+    , timeit
+    , vector
+  default-language: Haskell2010
+
+executable day25
+  main-is: day25app.hs
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      AOC2020
+    , array
+    , base >=4.7 && <5
+    , containers
+    , parsec
+    , primitive
+    , timeit
+    , vector
   default-language: Haskell2010
 
 test-suite AOC2020-test
@@ -75,7 +122,12 @@ test-suite AOC2020-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       AOC2020
+    , array
     , base >=4.7 && <5
     , containers
     , hspec
+    , parsec
+    , primitive
+    , timeit
+    , vector
   default-language: Haskell2010

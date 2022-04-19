@@ -1,4 +1,7 @@
+module Day21 where 
+    
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
 import qualified Data.Map as Map 
 import qualified Data.Set as Set 
 import Data.List 

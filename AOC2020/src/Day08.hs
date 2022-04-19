@@ -1,5 +1,5 @@
 
-module Day08 where
+module Day08 where 
 
 
 import qualified Data.Set as S
@@ -50,8 +50,8 @@ replaceNth n newVal (x:xs)
   | otherwise = x:replaceNth (n-1) newVal xs
 
 
-main :: IO ()
-main = do
+runner :: IO ()
+runner = do
        l <- getContents
        print ( accUntilRepeated (lines l) 0 0 S.empty )   -- part 1
        print ( head $ filter (>0) $ map (\l -> accUntilRepeated l 0 0 S.empty ) (variations (lines l) 0 []) )

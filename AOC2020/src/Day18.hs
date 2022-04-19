@@ -1,3 +1,4 @@
+module Day18 where
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 import Data.Char
 import Data.List

@@ -1,4 +1,4 @@
-module Main where
+module Day09 where
       
 import qualified Data.Set as S
 import Data.List ()

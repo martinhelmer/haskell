@@ -1,3 +1,5 @@
+module Day19 where 
+
 import qualified Data.Map as Map
 import Data.Maybe (fromMaybe)
 import Data.List

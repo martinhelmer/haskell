@@ -1,4 +1,6 @@
 
+module Day14 where 
+    
 import Numeric (showHex, showIntAtBase)
 import Data.Char (intToDigit, isDigit)
 import qualified Data.Map as Map

@@ -1,3 +1,5 @@
+module Day12 where 
+
 import Data.List (foldl')
 
 data Position =

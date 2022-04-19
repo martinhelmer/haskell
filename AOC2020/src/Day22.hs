@@ -1,3 +1,5 @@
+module Day22 where 
+
 import qualified Data.Set as Set
 
 -- TODO: use sequence / look for hashable sets
