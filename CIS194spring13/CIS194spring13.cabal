@@ -45,6 +45,7 @@ library
       LogAnalysis
       Parser
       Party
+      Risk
       Scrabble
       SExpr
       Sized

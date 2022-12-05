@@ -1,0 +1,15 @@
+packages:
+- .
+resolver:
+  compiler: ghc-8.10.7
+
+extra-deps:
+- vector-0.12.3.1
+- primitive-0.7.3.0
+- timeit-2.0
+- split-0.2.3.4
+- monad-loops-0.4.3
+- hashable-1.4.0.2
+- base-orphans-0.8.6
+- PSQueue-1.1.1
+

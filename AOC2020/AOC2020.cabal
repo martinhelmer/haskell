@@ -98,7 +98,7 @@ executable day25
   main-is: day25app.hs
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -O2
   build-depends:
       AOC2020
     , array
