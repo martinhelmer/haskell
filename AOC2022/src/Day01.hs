@@ -4,11 +4,12 @@ import AOCHelper
 import Data.List.Split
 import Data.List (sort)
 
+test :: String
 test = "888\n333\n\n666\n"
 
 --  for part 2 
 calorieList :: (Num b, Read b) => String -> [b]
-calorieList s =   map (\x -> sum $  map read x) $ splitOn [""] ( lines s )
+calorieList s =   map (sum . map read) $ splitOn [""] ( lines s )
 
 run :: IO ()
 run = do
@@ -18,12 +19,12 @@ run = do
    putStr " Part2: "
    readInp "input01.txt" >>= part2 >>= assertInt 207456
 
-part1 :: String -> IO (Int)
+part1 :: String -> IO Int
 part1 s = do
     return $ maximum (calorieList s)
 
 
-part2 :: String -> IO (Int)
+part2 :: String -> IO Int
 part2 s = do
     return $ sum . take 3 . reverse . sort $ calorieList s
 

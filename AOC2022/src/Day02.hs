@@ -1,4 +1,4 @@
-module Day02 (run) where
+module Day02 (run, runtest) where
 
 import AOCHelper
 -- import Data.List.Split
@@ -18,10 +18,10 @@ playPoints 'Z' = 3
 playPoints _ = undefined
 
 winPoints :: Char -> Char -> Int 
-winPoints them me = case (mp - tp) of
-                            0 -> 3
-                            1 -> 6
-                            -2 -> 6
+winPoints them me = case mp - tp of
+                            0 -> 3    -- draw
+                            1 -> 6    -- win 
+                            -2 -> 6   -- win "C X"
                             _ -> 0 
     where mp = playPoints me 
           tp = playPoints them 
@@ -36,6 +36,11 @@ roundPoints them me = playPoints me + winPoints them me
 test :: String
 test = "A Y\nB X\nC Z"
 
+runtest :: IO ()
+runtest = do 
+     part1 test >>= assertInt 15
+     part2 test >>= assertInt 12
+
 
 run :: IO ()
 run = do
@@ -45,7 +50,7 @@ run = do
    putStr " Part2: "
    readInp "input02.txt" >>= part2 >>= assertInt 14652
 
-part1 :: String -> IO (Int)
+part1 :: String -> IO Int
 part1 s = do
     return $ sum . map roundPointsFromString $ lines s  
 
@@ -66,6 +71,6 @@ yourMove _ = undefined
 roundPointsFromString2 :: [Char] -> Int
 roundPointsFromString2 s = roundPoints (head s) (yourMove s)
 
-part2 :: String -> IO (Int)
+part2 :: String -> IO Int
 part2 s = do
     return $ sum . map roundPointsFromString2 $ lines s  

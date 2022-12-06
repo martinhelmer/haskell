@@ -25,6 +25,11 @@ assertInt :: Int -> Int -> IO()
 assertInt  expected result | result == expected = putStrLn $ show result ++ " - OK"
                            | otherwise  = putStrLn $ show result ++" - Fail! expected "++show expected
 
+
+assertIt :: (Eq a, Show a) => a -> a -> IO ()
+assertIt expected result | result == expected = putStrLn $ show result ++ " - OK"
+                         | otherwise  = putStrLn $ show result ++" - Fail! expected "++show expected
+
 printreturn :: (Show a) => a -> IO a
 printreturn x = putStr (show x) >> return x
 
