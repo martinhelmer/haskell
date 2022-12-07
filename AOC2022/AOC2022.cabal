@@ -32,6 +32,7 @@ library
       Day04
       Day05
       Day06
+      Day07
       Lib
   other-modules:
       Paths_AOC2022
@@ -42,6 +43,7 @@ library
       array >=0.5.4.0
     , base >=4.7 && <5
     , containers >=0.6.4.1
+    , raw-strings-qq >=0.1
     , split >=0.2.3.4
     , timeit >=2.0
     , vector >=0.12.3.1
@@ -59,6 +61,7 @@ executable AOC2022-exe
     , array >=0.5.4.0
     , base >=4.7 && <5
     , containers >=0.6.4.1
+    , raw-strings-qq >=0.1
     , split >=0.2.3.4
     , timeit >=2.0
     , vector >=0.12.3.1
@@ -77,6 +80,7 @@ test-suite AOC2022-test
     , array >=0.5.4.0
     , base >=4.7 && <5
     , containers >=0.6.4.1
+    , raw-strings-qq >=0.1
     , split >=0.2.3.4
     , timeit >=2.0
     , vector >=0.12.3.1

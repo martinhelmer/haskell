@@ -7,19 +7,22 @@ import Day03
 import Day04
 import Day05
 import Day06
+import Day07
 
 import Control.Monad
 import System.TimeIt
 
 sToR :: String -> IO ()
 sToR "ALL" = forM_ [timeIt Day01.run, timeIt Day02.run, timeIt Day03.run,
-                    timeIt Day04.run, timeIt Day05.run, timeIt Day06.run]  id
+                    timeIt Day04.run, timeIt Day05.run, timeIt Day06.run,
+                    timeIt Day07.run]  id
 sToR "01" = Day01.run
 sToR "02" = Day02.run
 sToR "03" = Day03.run
 sToR "04" = Day04.run
 sToR "05" = Day05.run
 sToR "06" = Day06.run
+sToR "07" = Day07.run
 sToR _ = undefined
 
 

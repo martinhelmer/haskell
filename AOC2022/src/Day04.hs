@@ -19,7 +19,7 @@ runtest = do
 
 run :: IO ()
 run = do
-   putStrLn "--- Day04 ---"
+   putStrLn "--- Day04 Work area overlap ---"
    putStr " Part1: "
    readInp "input04.txt" >>= part1 >>= assertInt 450
    putStr " Part2: "
