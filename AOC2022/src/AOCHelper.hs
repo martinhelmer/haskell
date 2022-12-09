@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
+{-# OPTIONS_GHC -Wno-missing-export-lists #-}
 
 module AOCHelper where
 import qualified Data.Vector as V
@@ -37,6 +38,7 @@ makePbmFromInts :: Int -> Int -> [Int] -> IO ()
 makePbmFromInts w h im = writeFile "./message.pbm" pbm
   where pbm = "P1 " ++ show w ++ " " ++ show h ++ " " ++ unwords (map show im)
 
+sign :: (Ord a1, Num a1, Num a2) => a1 -> a2
 sign i = if i < 0 then -1 else 1
 
 class Parseable a where
@@ -64,6 +66,7 @@ parseIntoArray s = A.listArray bounds (concat l)
 
 
 
+parseInto2dMap :: String -> M.Map (Int, Int) Char
 parseInto2dMap s = M.fromList $ zip ([(x,y) | y <- [0..(rows-1)] , x <-[0..(cols-1)]]) (concat lns)
     where lns  = lines s
           rows = length lns
@@ -71,6 +74,7 @@ parseInto2dMap s = M.fromList $ zip ([(x,y) | y <- [0..(rows-1)] , x <-[0..(cols
 
 
 
+mapBounds :: (Ord b, Ord a) => [(a, b)] -> ((a, b), (a, b))
 mapBounds a = ((x1,y1),(x2,y2))
     where x1 =  minimum . map fst $ a
           x2 =  maximum . map fst $ a
@@ -78,20 +82,25 @@ mapBounds a = ((x1,y1),(x2,y2))
           y2 =  maximum . map snd $ a
 
 
+draw2dmap :: (Num a, Enum b, Eq a, Ord b) => M.Map (Int, b) a -> String
 draw2dmap m = unlines $ chunksOf (1+x2-x1) (map (\k -> intDispl $ fromMaybe 0 (M.lookup k m)) ( flip (,) <$>  [y1..y2] <*> [x1..x2]))
     where  ((x1,y1),(x2,y2)) = mapBounds (M.keys m)
 
+draw2dcharmap :: (Enum b, Ord b) => M.Map (Int, b) Char -> [Char]
 draw2dcharmap m = map (\c -> if c =='#' then '\x2588' else c) $ unlines $ chunksOf (1+x2-x1) (map (\k -> fromMaybe ' ' (M.lookup k m)) ( flip (,) <$>  [y1..y2] <*> [x1..x2]))
     where  ((x1,y1),(x2,y2)) = mapBounds (M.keys m)
 
 
+draw2dchararr :: (Enum b, A.Ix b) => A.Array (Int, b) Char -> [Char]
 draw2dchararr a = draw2dcharmap ( M.fromList $ A.assocs a)
 
+intDispl :: (Eq a, Num a) => a -> Char
 intDispl 1 = '\x2588'
 intDispl 0 = '.'
 intDispl 2 = '\x2592'
 intDispl 3 = '='
 intDispl 4 = '\x25CD'
+intDispl _ = undefined
 
 maximumOn :: (Foldable t, Ord b) => (a -> b) -> t a -> a
 maximumOn f = maximumBy (compare `on` f)

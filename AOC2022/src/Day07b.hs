@@ -1,9 +1,9 @@
 {-# LANGUAGE QuasiQuotes #-}
-module Day07 (run, runtest) where
+module Day07b (run, runtest) where
 
 import AOCHelper
 import Text.RawString.QQ
-import Data.List ( isPrefixOf, tails ) 
+import Data.List (isPrefixOf) 
 import Data.Char
 
 test :: String
@@ -49,28 +49,39 @@ isFile = isDigit . head
 fileSize :: String -> Int
 fileSize = read . head . words
 
-subdirs :: [[Char]] -> [[[Char]]]
-subdirs xs =  map tail $ filter (isDown . head) . filter (not . null) $ tails xs
+addAt :: Int -> Int -> [Int] -> [Int]
+addAt n x xs = take n' xs ++ (head t +x):tail t
+    where n' = (length xs - n) - 1
+          t = drop n' xs 
 
-dirSize :: Int -> Int -> [[Char]] -> Int
-dirSize _ cum [] = cum
-dirSize d cum (x:xs)  | d < 0 = cum
-                       | isDown x = dirSize (d+1) cum xs
-                       | isUp x = dirSize (d-1) cum xs
-                       | isFile x = dirSize d (cum + (fileSize x)) xs
-                       | otherwise = dirSize d cum xs
+
+
+go :: Int -> [Int] -> [Int] -> [[Char]] -> [Int]
+go _ [] sums [] = sums 
+go pos hist sums l  | null l = doUp []
+                    | isDown x = go (length sums) (pos:hist) (0:sums) xs
+                    | isFile x = go pos hist  (addAt pos (fileSize x) sums) xs
+                    | isUp x = doUp xs
+                    | otherwise = go pos hist sums xs 
+            where x = head l
+                  xs = tail l
+                  doUp = go (head hist) (tail hist) (addAt (head hist) (sums !! (length sums - pos -1)) sums) 
 
 dirsizes :: String -> [Int]
-dirsizes s = map (dirSize 0 0 ) $ subdirs $ lines s
-
-
-spaceNeeded :: Num a => [a] -> a
-spaceNeeded xs = 30000000 - (70000000 - (head xs) )
-
+dirsizes s = go 0 [] [0] (lines s) 
+-- 0 [] [0] 
+-- 0 [] [1]
+-- 1 [0] [0:1]
+-- 1 [0] [3:1]
+-- 0 [] [3:4]
+-- 
 part1 :: String -> IO Int
 part1 s = do
     return $ sum . filter (< 100000)  $  dirsizes s
     
+spaceNeeded :: Num a => [a] -> a
+spaceNeeded xs = 30000000 - (70000000 - last xs )
+
 part2 :: String -> IO Int
 part2 s = do
     let ds = dirsizes s 
@@ -78,7 +89,7 @@ part2 s = do
     
 run :: IO ()
 run = do
-   putStrLn "--- Day07 DirTree ---"
+   putStrLn "--- Day07 DirTree with stack ---"
    putStr " Part1: "
    readInp "input07.txt" >>= part1 >>= assertIt 1513699
    putStr " Part2: "

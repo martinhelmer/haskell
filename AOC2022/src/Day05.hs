@@ -43,8 +43,7 @@ iToPos n = n * 4 -3
 stripStuff :: [String] -> [String]
 stripStuff xs = map q l
     where l = tail . reverse  $ xs
-          q r = map (f r . iToPos) [1..9]
-          f r pos = if pos > length r then ' ' else r !! pos
+          q r = map (\i -> (r++ repeat ' ') !! iToPos i) [1..9]
 
 startList :: [String] -> [[Char]]
 startList s =  map (reverse . filter (/= ' ')) $ transpose . stripStuff $ s
