@@ -21,15 +21,13 @@ hPositions s = scanl (\(a,b) (c,d) -> (a+c,b+d)) (0,0) $ moves s
 
 tPositions :: [(Int, Int)] -> [(Int, Int)]
 tPositions = scanl1 go  
-    where go (x,y) (x2,y2) = ( d x x2 , d y y2 )
+    where go (tx,ty) (hx,hy) = if far then ( d tx hx , d ty hy ) else (tx,ty)
              where
-                d a b | b > a && far = a+1
-                      | b < a && far = a-1 
-                      | otherwise = a 
-                far = abs (x2-x) > 1 || abs (y2-y) > 1
+                d a b = a + signum (b-a)
+                far = any ((1 <) . abs) [hx-tx, hy-ty]
 
 
-tailN n s =  iterate tPositions (hPositions $ lines s) !! n
+tailvisits n s = length . nubOrd $ iterate tPositions (hPositions $ lines s) !! n
 
 part1 :: String -> IO Int
 part1 s = do
