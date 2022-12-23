@@ -3,42 +3,48 @@
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 module Day09 (run, runtest) where
 
-import AOCHelper ( assertIt, readInp )
+import AOCHelper ( assertIt, readInpByteSTring )
 import Data.Containers.ListUtils ( nubOrd )
+import Data.ByteString ( ByteString)
+import qualified Data.ByteString.Char8 as BC
+import qualified Data.ByteString.UTF8 as BSU 
+import Data.Maybe ( fromJust ) 
 
-moves :: [String] -> [(Int,Int)]
+moves :: [ByteString] -> [(Int,Int)]
 moves = concatMap  go 
-    where go (d:_:n) = replicate (read n) (md d)
-          md c = case c of 
+    where go line = replicate (fst $ fromJust $ BC.readInt (BC.drop 2 line)) (md line)
+          md c = case BC.head c of 
                 'R' -> (1,0) 
                 'L' -> (-1,0) 
                 'U' -> (0,-1) 
                 'D' -> (0,1) 
                 _ -> undefined
 
-hPositions :: [String] -> [(Int, Int)]
-hPositions s = scanl (\(a,b) (c,d) -> (a+c,b+d)) (0,0) $ moves s  
+hPos :: [ByteString] -> [(Int, Int)]
+hPos s = scanl (\(a,b) (c,d) -> (a+c,b+d)) (0,0) $ moves s  
 
-tPositions :: [(Int, Int)] -> [(Int, Int)]
-tPositions = scanl1 go  
-    where go (tx,ty) (hx,hy) = if far then ( d tx hx , d ty hy ) else (tx,ty)
-             where
+tPos :: [(Int, Int)] -> [(Int, Int)]
+tPos = scanl1 go  
+    where go (tx,ty) (hx,hy) = if isFar then ( d tx hx , d ty hy )
+                                        else (tx,ty)
+            where
                 d a b = a + signum (b-a)
-                far = any ((1 <) . abs) [hx-tx, hy-ty]
+                isFar = any ((1 <) . abs) [hx-tx, hy-ty]
 
+tailVisits :: Int -> ByteString -> Int
+tailVisits n s = length . nubOrd $ iterate tPos (hPos (init $ BC.split '\n' s)) !! n
 
-tailvisits n s = length . nubOrd $ iterate tPositions (hPositions $ lines s) !! n
-
-part1 :: String -> IO Int
+part1 :: ByteString -> IO Int
 part1 s = do
-    return $ length . nubOrd $ tailN 1 s
+    return $ tailVisits 1 s
     
-part2 :: String -> IO Int
+part2 :: ByteString -> IO Int
 part2 s = do
-    return $ length . nubOrd $ tailN 9 s
-    
-test :: String
-test = unlines ["R 4",
+    return $ tailVisits 9 s 
+        
+test :: ByteString
+test = BSU.fromString . 
+       unlines $ ["R 4",
                 "U 4",
                 "L 3",
                 "D 1",
@@ -47,14 +53,16 @@ test = unlines ["R 4",
                 "L 5",
                 "R 2"]
 
-test2 = unlines ["R 5",
-                "U 8",
-                "L 8",
-                "D 3",
-                "R 17",
-                "D 10",
-                "L 25",
-                "U 20"]
+test2 :: ByteString
+test2 = BSU.fromString . 
+        unlines $ ["R 5",
+                    "U 8",
+                    "L 8",
+                    "D 3",
+                    "R 17",
+                    "D 10",
+                    "L 25",
+                    "U 20"]
 
 runtest :: IO ()
 runtest = do 
@@ -67,8 +75,8 @@ run :: IO ()
 run = do
    putStrLn "--- Day09 Knotted Rope---"
    putStr " Part1: "
-   readInp "input09.txt" >>= part1 >>= assertIt 6494
+   readInpByteSTring  "input09.txt" >>= part1 >>= assertIt 6494
    putStr " Part2: "
-   readInp "input09.txt" >>= part2 >>= assertIt 2691
+   readInpByteSTring "input09.txt" >>= part2 >>= assertIt 2691
 
 

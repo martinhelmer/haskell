@@ -36,7 +36,23 @@ library
       Day07b
       Day08
       Day09
-      Lib
+      Day10
+      Day11
+      Day12
+      Day13
+      Day14
+      Day15
+      Day16
+      Day17
+      Day18
+      Day19
+      Day20
+      Day20b
+      Day21
+      Day22
+      Day22b
+      Day23
+      MyBfs
   other-modules:
       Paths_AOC2022
   hs-source-dirs:
@@ -45,10 +61,14 @@ library
   build-depends:
       array >=0.5.4.0
     , base >=4.7 && <5
+    , bytestring >=0.11.3.1
     , containers >=0.6.4.1
+    , hashmap
+    , primitive >=0.7.3.0
     , raw-strings-qq >=0.1
     , split >=0.2.3.4
     , timeit >=2.0
+    , utf8-string >=1.0.2
     , vector >=0.12.3.1
   default-language: Haskell2010
 
@@ -63,10 +83,14 @@ executable AOC2022-exe
       AOC2022
     , array >=0.5.4.0
     , base >=4.7 && <5
+    , bytestring >=0.11.3.1
     , containers >=0.6.4.1
+    , hashmap
+    , primitive >=0.7.3.0
     , raw-strings-qq >=0.1
     , split >=0.2.3.4
     , timeit >=2.0
+    , utf8-string >=1.0.2
     , vector >=0.12.3.1
   default-language: Haskell2010
 
@@ -82,9 +106,13 @@ test-suite AOC2022-test
       AOC2022
     , array >=0.5.4.0
     , base >=4.7 && <5
+    , bytestring >=0.11.3.1
     , containers >=0.6.4.1
+    , hashmap
+    , primitive >=0.7.3.0
     , raw-strings-qq >=0.1
     , split >=0.2.3.4
     , timeit >=2.0
+    , utf8-string >=1.0.2
     , vector >=0.12.3.1
   default-language: Haskell2010

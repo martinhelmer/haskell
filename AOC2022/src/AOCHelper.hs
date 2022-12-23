@@ -1,5 +1,6 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# OPTIONS_GHC -Wno-missing-export-lists #-}
+{-# LANGUAGE TupleSections #-}
 
 module AOCHelper where
 import qualified Data.Vector as V
@@ -13,6 +14,8 @@ import           Data.Int
 
 import Data.Foldable
 import Data.Function (on)
+import qualified Data.ByteString as BS
+import qualified Data.Foldable as S
 
 mapInsert:: (Ord a) => M.Map a b -> [(a,b)] -> M.Map a b
 mapInsert = foldl (\r (a,b) -> M.insert a b r)
@@ -20,6 +23,9 @@ mapInsert = foldl (\r (a,b) -> M.insert a b r)
 
 readInp :: [Char] -> IO String
 readInp = readFile . (++) "input/"
+
+readInpByteSTring :: [Char] -> IO BS.ByteString
+readInpByteSTring = BS.readFile  . (++) "input/"
 
 
 assertInt :: Int -> Int -> IO()
@@ -65,6 +71,12 @@ parseIntoArray s = A.listArray bounds (concat l)
           l = lines s
 
 
+parseIntoArrayWithBorder  :: Char -> [Char] -> A.Array (Int, Int) Char
+parseIntoArrayWithBorder c s = A.listArray bounds ((replicate cols c) ++ concat l ++ (replicate cols c) )
+    where bounds = ((-1,-1),(rows -1 ,cols-1))
+          l = map (\l' -> c:l'++[c]) $ lines s
+          rows = length l + 2
+          cols = length (head l)
 
 parseInto2dMap :: String -> M.Map (Int, Int) Char
 parseInto2dMap s = M.fromList $ zip ([(x,y) | y <- [0..(rows-1)] , x <-[0..(cols-1)]]) (concat lns)
@@ -82,6 +94,10 @@ mapBounds a = ((x1,y1),(x2,y2))
           y2 =  maximum . map snd $ a
 
 
+draw2dset :: (Foldable t) => t (Int, Int) -> String
+draw2dset s = draw2dmap ( M.fromList $ map (,1::Int) (S.toList s))
+
+
 draw2dmap :: (Num a, Enum b, Eq a, Ord b) => M.Map (Int, b) a -> String
 draw2dmap m = unlines $ chunksOf (1+x2-x1) (map (\k -> intDispl $ fromMaybe 0 (M.lookup k m)) ( flip (,) <$>  [y1..y2] <*> [x1..x2]))
     where  ((x1,y1),(x2,y2)) = mapBounds (M.keys m)
@@ -91,8 +107,8 @@ draw2dcharmap m = map (\c -> if c =='#' then '\x2588' else c) $ unlines $ chunks
     where  ((x1,y1),(x2,y2)) = mapBounds (M.keys m)
 
 
-draw2dchararr :: (Enum b, A.Ix b) => A.Array (Int, b) Char -> [Char]
-draw2dchararr a = draw2dcharmap ( M.fromList $ A.assocs a)
+draw2dchararr ::  A.Array (Int, Int) Char -> [Char]
+draw2dchararr a = draw2dcharmap ( M.fromList $ map (\((y,x),v) -> ((x,y),v)) $ A.assocs a)
 
 intDispl :: (Eq a, Num a) => a -> Char
 intDispl 1 = '\x2588'

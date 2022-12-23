@@ -1,11 +1,9 @@
+{-# OPTIONS_GHC -Wno-missing-signatures #-}
 module Day06 (run, runtest) where
 
 import AOCHelper
 import qualified Data.Set as S
-import GHC.Arr (done)
--- import Data.List.Split (splitOn)
 
-test1 :: String
 test1 = "mjqjpqmgbljsphdztnvjfqwrcgsmlb"
 test2 = "bvwbjplbgvbhsrlpgdmjqwftvncz"
 test3 = "nppdvjthqldpwncqszvftbrmjlhg"
@@ -41,11 +39,9 @@ part2 :: String -> IO Int
 part2 s = do
     return $ length $ process' 14 (reverse $ take 14 s) (drop 14 s)
 
-
-
-process' n done (xs) | areUnique (take n done) = done
-                     | null xs = undefined
-                     | otherwise = process' n ((head xs):done) (tail xs)
+process' n done xs | areUnique (take n done) = done
+                   | null xs = undefined
+                   | otherwise = process' n (head xs:done) (tail xs)
 
 areUnique :: Ord a => [a] -> Bool
 areUnique s = length s == length (S.fromList s)
