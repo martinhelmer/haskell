@@ -52,6 +52,8 @@ library
       Day22
       Day22b
       Day23
+      Day24
+      Day25
       MyBfs
   other-modules:
       Paths_AOC2022
@@ -63,6 +65,7 @@ library
     , base >=4.7 && <5
     , bytestring >=0.11.3.1
     , containers >=0.6.4.1
+    , hashable
     , hashmap
     , primitive >=0.7.3.0
     , raw-strings-qq >=0.1
@@ -85,6 +88,7 @@ executable AOC2022-exe
     , base >=4.7 && <5
     , bytestring >=0.11.3.1
     , containers >=0.6.4.1
+    , hashable
     , hashmap
     , primitive >=0.7.3.0
     , raw-strings-qq >=0.1
@@ -108,6 +112,7 @@ test-suite AOC2022-test
     , base >=4.7 && <5
     , bytestring >=0.11.3.1
     , containers >=0.6.4.1
+    , hashable
     , hashmap
     , primitive >=0.7.3.0
     , raw-strings-qq >=0.1

@@ -98,7 +98,7 @@ draw2dset :: (Foldable t) => t (Int, Int) -> String
 draw2dset s = draw2dmap ( M.fromList $ map (,1::Int) (S.toList s))
 
 
-draw2dmap :: (Num a, Enum b, Eq a, Ord b) => M.Map (Int, b) a -> String
+draw2dmap ::  M.Map (Int, Int) Int -> String
 draw2dmap m = unlines $ chunksOf (1+x2-x1) (map (\k -> intDispl $ fromMaybe 0 (M.lookup k m)) ( flip (,) <$>  [y1..y2] <*> [x1..x2]))
     where  ((x1,y1),(x2,y2)) = mapBounds (M.keys m)
 
@@ -110,7 +110,7 @@ draw2dcharmap m = map (\c -> if c =='#' then '\x2588' else c) $ unlines $ chunks
 draw2dchararr ::  A.Array (Int, Int) Char -> [Char]
 draw2dchararr a = draw2dcharmap ( M.fromList $ map (\((y,x),v) -> ((x,y),v)) $ A.assocs a)
 
-intDispl :: (Eq a, Num a) => a -> Char
+intDispl ::  Int -> Char
 intDispl 1 = '\x2588'
 intDispl 0 = '.'
 intDispl 2 = '\x2592'

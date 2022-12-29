@@ -16,7 +16,7 @@ fullSum s = sum $ map (\i -> i * (l !! (i-1) )) [20, 60, 100, 140, 180, 220]
 
 crtOutput :: String -> String 
 crtOutput s =zipWith o (concat . repeat $ [0..39]) (scanIt $ lines s)
-    where o crt sprite | abs (crt - sprite) < 2 = intDispl (1::Integer)
+    where o crt sprite | abs (crt - sprite) < 2 = intDispl (1::Int)
                        | otherwise = '.'
 
 part1 :: String -> IO Int

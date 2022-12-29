@@ -25,6 +25,7 @@ import Day20
 import Day20b
 import Day22
 import Day23 
+import Day24 
 
 import Control.Monad
 import System.TimeIt
@@ -60,8 +61,7 @@ sToR "19" = Day19.run
 sToR "20" = Day20.run
 sToR "22" = Day22.run
 sToR "23" = Day23.run
-
-
+sToR "24" = Day24.run
 
 sToR _ = undefined
 
